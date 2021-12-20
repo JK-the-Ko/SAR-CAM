@@ -1,4 +1,4 @@
-# SAR Image Despeckling using Continuous Attention Module
+# SAR Image Despeckling Using Continuous Attention Module
 
 ## Model Architecture
 ![image](https://user-images.githubusercontent.com/55126482/144569524-0bd02952-cbef-4413-af47-398ebed6441c.png)
