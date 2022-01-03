@@ -12,6 +12,11 @@ HDRANet. (h) U-Net. (i) STD-CNN. (j) MONet. (k) MRDDANet. (l) Proposed Method., 
 Results for the parking lot image with 1-look speckle noise. (a) Reference. (b) Noisy image. (c) PPB. (d) SAR-BM3D. (e) FANS. (f) SAR-DRN.
 (g) HDRANet. (h) U-Net. (i) STD-CNN. (j) MONet. (k) MRDDANet. (l) Proposed Method., respectively.
 
+## Usage
+```
+python3 train.py --project PROJECT_NAME --noisy-train-dir NOISY_IMAGE_TRAIN_DIR --clean-train-dir CLEAN_IMAGE_TRAIN_DIR --noisy-valid-dir NOISY_IMAGE_VALID_DIR --clean-valid-dir CLEAN_IMAGE_VALID_DIR 
+```
+
 ## Citation
 If you use SAR-CAM in your work, please consider citing us as
 
