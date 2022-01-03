@@ -21,7 +21,7 @@ from tqdm import tqdm
 def main() :
     parser = argparse.ArgumentParser()
     parser.add_argument("--project", type = str, required = True)
-    parser.add_argument("--model-name", type = str, default = "SAR-CAM-wo-SC")
+    parser.add_argument("--model-name", type = str, default = "SAR-CAM")
     parser.add_argument("--noisy-train-dir", type = str, required = True)
     parser.add_argument("--clean-train-dir", type = str, required = True)
     parser.add_argument("--noisy-valid-dir", type = str, required = True)
