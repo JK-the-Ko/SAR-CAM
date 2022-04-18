@@ -27,7 +27,7 @@ def main() :
     set_logging()
     device = select_device(args.model_name, args.device)
 
-    # Initialize Model
+    # Create Model Instance
     model = Model(
                 scale = 2,
                 in_channels = 1,

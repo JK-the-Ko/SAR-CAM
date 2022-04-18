@@ -19,6 +19,7 @@ from torchsummary import summary
 from tqdm import tqdm
 
 def main() :
+    # Argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("--project", type = str, required = True)
     parser.add_argument("--model-name", type = str, default = "SAR-CAM")
@@ -55,7 +56,7 @@ def main() :
     # Set Seed
     set_seed(args.seed)
 
-    # Initialize Model
+    # Create Model Instance
     model = Model(
                 scale = 2,
                 in_channels = 1,
@@ -83,7 +84,7 @@ def main() :
                         args.seed
                         )
 
-    # Apply Mini-Batch
+    # Create Pytorch DataLoader Instance
     train_dataloader = DataLoader(
                             train_dataset,
                             batch_size = args.batch_size,
@@ -103,7 +104,7 @@ def main() :
     # Get Parameters of Current Model
     print(summary(model, (1, args.input_shape, args.input_shape), batch_size = args.batch_size))
 
-    # Initialize Optimizer
+    # Create Optimizer Instance
     optimizer = optim.Adam(
                             model.parameters(),
                             lr = 1e-4,
@@ -113,7 +114,7 @@ def main() :
     # Let wandb Watch Training Process
     wandb.watch(model)
 
-    # Initialize Learning Rate Scheduler
+    # Create Learning Rate Scheduler Instance
     scheduler = optim.lr_scheduler.StepLR(
                                             optimizer = optimizer,
                                             step_size = args.epochs // 4,
@@ -133,7 +134,6 @@ def main() :
     # Create Directory for Saving Weights
     if "best_model" not in listdir(getcwd()) :
         mkdir(join(getcwd(), "best_model"))
-
     if args.project not in listdir(join(getcwd(), "best_model")) :
         mkdir(join(getcwd(), "best_model", args.project))
 
@@ -143,27 +143,26 @@ def main() :
         for param_group in optimizer.param_groups:
             current_lr = param_group["lr"]
 
-        # Initialize tqdm
+        # Create TQDM Bar Instance
         train_bar = tqdm(train_dataloader)
 
         # Train Current Model
         model.train()
 
-        # Initialize Loss
+        # Create Metric Instance
         train_loss = AverageMeter()
         train_psnr, train_ssim = AverageMeter(), AverageMeter()
         noisy_image_psnr, noisy_image_ssim = AverageMeter(), AverageMeter()
 
-        # Trian Data Mini-Batch
+        # Trian Data
         for data in train_bar :
-            # Assign Training Data
             inputs, targets = data
 
             # Assign Device
             inputs = inputs.to(device)
             targets = targets.to(device)
 
-            # Forward Pass Image
+            # Get Prediction
             preds = model(inputs)
 
             # Get Loss
@@ -189,10 +188,10 @@ def main() :
             # Update Model Model
             optimizer.step()
 
-            # Update tqdm Bar
+            # Update TQDM Bar
             train_bar.set_description(desc=f"[{epoch}/{args.epochs - 1}] [Train] [Loss : {train_loss.avg:.4f}, PSNR(Noisy) : {noisy_image_psnr.avg:.4f}, SSIM(Noisy) : {noisy_image_ssim.avg:.4f}, PSNR(Denoised) : {train_psnr.avg:.4f}, SSIM(Denoised) : {train_ssim.avg:.4f}]")
 
-        # Initialize tqdm
+        # Create TQDM Bar Instance
         valid_bar = tqdm(valid_dataloader)
 
         # Validate Model
@@ -204,7 +203,6 @@ def main() :
         noisy_image_psnr, noisy_image_ssim = AverageMeter(), AverageMeter()
 
         with torch.no_grad() :
-            # Validation Data Mini-Batch
             for data in valid_bar :
                 # Assign Training Data
                 inputs, targets = data
@@ -213,7 +211,7 @@ def main() :
                 inputs = inputs.to(device)
                 targets = targets.to(device)
 
-                # Get Denoised Image
+                # Get Prediction
                 preds = model(inputs)
 
                 # Get Loss
@@ -230,10 +228,10 @@ def main() :
                 valid_ssim.update(calc_ssim(preds, targets).item(), len(inputs))
                 noisy_image_ssim.update(calc_ssim(inputs, targets).item(), len(inputs))
 
-                # Update tqdm Bar
+                # Update TQDM Bar
                 valid_bar.set_description(desc=f"[{epoch}/{args.epochs - 1}] [Validation] [Loss : {valid_loss.avg:.4f}, PSNR(Noisy) : {noisy_image_psnr.avg:.4f}, SSIM(Noisy) : {noisy_image_ssim.avg:.4f}, PSNR(Denoised) : {valid_psnr.avg:.4f}, SSIM(Denoised) : {valid_ssim.avg:.4f}]")
 
-        # Initialize List for Saving Image
+        # Create List Instance for Saving Image
         sample_list = list()
 
         # Append Image
@@ -266,7 +264,7 @@ def main() :
             # Save Best Model
             torch.save(best_model, f"best_model/{args.project}/{args.model_name}_best.pth")
 
-        elif valid_ssim.avg > best_ssim :
+        if valid_ssim.avg > best_ssim :
             # Save Best Model
             best_model = copy.deepcopy(model.state_dict())
 

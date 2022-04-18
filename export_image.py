@@ -6,7 +6,7 @@ def concat_image(tensor_input, tensor_pred, tensor_target) :
         # Create Torchvision Transforms Instance
         to_pil = transforms.Compose([transforms.ToPILImage()])
 
-        # Convert PyTorch Tensor to Pillow Image
+        # Convert PyTorch Tensor to Numpy Array
         image_input = np.array(to_pil(tensor_input), dtype = "uint8")
         image_pred = np.array(to_pil(tensor_pred), dtype = "uint8")
         image_target = np.array(to_pil(tensor_target), dtype = "uint8")

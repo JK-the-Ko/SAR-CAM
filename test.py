@@ -37,7 +37,7 @@ def main() :
     set_logging()
     device = select_device(args.model_name, args.device)
 
-    # Load Trained Denoising Model
+    # Create Model Instance
     model = Model(
                 scale = 2,
                 in_channels = 1,
@@ -49,11 +49,11 @@ def main() :
                 ).to(device)
     model.load_state_dict(torch.load(args.weights_dir))
 
-    # Initialize Torchvision Transforms
+    # Create Torchvision Transforms Instance
     to_tensor = transforms.ToTensor()
     to_pil = transforms.ToPILImage()
 
-    # Initialize List for Saving PSNR
+    # Create List Instance for Saving Metrics
     image_name_list, psnr_noisy_list, psnr_denoised_list, ssim_noisy_list, ssim_denoised_list = list(), list(), list(), list(), list()
 
     # Assign Device
@@ -63,14 +63,13 @@ def main() :
     model.eval()
 
     with tqdm(total = len(listdir(args.noisy_image_dir))) as pbar :
-        # Apply Denoising CNN
         with torch.no_grad() :
             for x in listdir(args.noisy_image_dir) :
-                # Get the Absolute Image Path
+                # Get Image Path
                 clean_image_path = join(args.clean_image_dir, x)
                 noisy_image_path = join(args.noisy_image_dir, x)
 
-                # Get Image
+                # Load Image
                 clean_image = pil_image.open(clean_image_path)
                 noisy_image = pil_image.open(noisy_image_path)
 
@@ -78,18 +77,18 @@ def main() :
                 tensor_clean_image = to_tensor(clean_image).unsqueeze(0)
                 tensor_noisy_image = to_tensor(noisy_image).unsqueeze(0).to(device)
 
-                # Get Denoised Image
+                # Get Prediction
                 pred = model(tensor_noisy_image)
 
                 # Assign Device into CPU
                 tensor_noisy_image = tensor_noisy_image.detach().cpu()
                 pred = pred.detach().cpu()
 
-                # Get PSNR
+                # Calculate PSNR
                 psnr_noisy = calc_psnr(tensor_noisy_image, tensor_clean_image).item()
                 psnr_denoised = calc_psnr(pred, tensor_clean_image).item()
 
-                # Get SSIM
+                # Calculate SSIM
                 ssim_noisy = calc_ssim(tensor_noisy_image, tensor_clean_image,size_average = True).item()
                 ssim_denoised = calc_ssim(pred, tensor_clean_image, size_average = True).item()
 
@@ -132,22 +131,22 @@ def main() :
                     cv2.imwrite(f"{args.save_dir}/{x}", stacked_image)
 
                 else :
-                    # Save Denoised Image
+                    # Save Image
                     pred.save(f"{args.save_dir}/{x}")
 
-                # Update tqdm
+                # Update TQDM Bar
                 pbar.update()
 
-    # Initialize Dictionary
+    # Create Dictionary Instance
     d = {"Noisy Image PSNR(dB)" : psnr_noisy_list,
             "Noisy Image SSIM" : ssim_noisy_list,
             "Denoised Image PSNR(dB)" : psnr_denoised_list,
             "Denoised Image SSIM" : ssim_denoised_list}
 
-    # Initialize pandas Dataframe
+    # Create Pandas Dataframe Instance
     df = pd.DataFrame(data = d, index = image_name_list)
 
-    # Save as .csv
+    # Save as CSV Format
     df.to_csv(f"{args.save_dir}/image_quality_assessment.csv")
 
 if __name__ == "__main__" :

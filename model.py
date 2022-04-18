@@ -8,6 +8,7 @@ class SAR_CAM(nn.Module) :
         # Inheritance
         super(SAR_CAM, self).__init__()
 
+        # Create Layer Instance
         self._conv_in_ = _conv_(in_channels, channels, kernel_size, stride, dilation, bias)
         self._conv_out_ = _conv_(channels, in_channels, kernel_size, stride, dilation, bias)
         self._down_ = nn.MaxPool2d(kernel_size = scale, stride = scale)

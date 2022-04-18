@@ -12,7 +12,7 @@ class Loss(nn.Module) :
         # Initialize Loss Weight
         self._lambda_tv_ = lambda_tv
 
-        # Initialize Loss
+        # Create Loss Instance
         self._loss_function_ = nn.MSELoss()
         self._dg_loss_ = DGLoss(self._loss_function_, self._device_)
         self._tv_loss_ = TVLoss()
