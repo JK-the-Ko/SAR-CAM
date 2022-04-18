@@ -249,7 +249,7 @@ def main() :
         "Learning Rate" : current_lr,
         "Validation PSNR" : valid_psnr.avg,
         "Validation SSIM" : valid_ssim.avg,
-        "Validaion Loss" : valid_loss.avg,
+        "Validation Loss" : valid_loss.avg,
         "Image Comparison" : sample_list})
 
         # Save New Values
