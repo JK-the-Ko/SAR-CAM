@@ -41,7 +41,7 @@ python3 test.py --weights-dir SAVE_WEIGHT_DIR --clean-image-dir CLEAN_IMAGE_TEST
 ```
 
 ## Plan
-- ### Add pretrained model.
+- ### Add pretrained models.
 
 ## Citation
 If you use SAR-CAM in your work, please consider citing us as
