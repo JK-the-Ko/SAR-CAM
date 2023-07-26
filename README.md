@@ -11,7 +11,7 @@ Results for the parking lot image with 1-look speckle noise. (a) Reference. (b) 
 (g) HDRANet. (h) U-Net. (i) STD-CNN. (j) MONet. (k) MRDDANet. (l) Proposed Method., respectively.
 
 ## Prerequisites
-- Python 3
+- Python 3.6
 - PyTorch 1.8
 - NVIDIA GPU + CUDA cuDNN
 
