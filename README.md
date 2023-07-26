@@ -3,8 +3,7 @@
 ## Abstract
 Speckle removal process is inevitable in the restoration of synthetic aperture radar (SAR) images. Several variant methods have been proposed for enhancing SAR images over the past decades. However, in recent studies, convolutional neural networks (CNNs) have been widely applied in SAR image despeckling because of their versatility in representation learning. Nonetheless, a fair number of textures of the images are still lost when despeckling using simple CNN structures. To solve this problem, an encoder–decoder architecture was previously proposed. Although this architecture extracts features on different scales and has been shown to yield state-of-the-art performance, it still learns representation locally, resulting in missing overall information of convolutional features. Therefore, we herein introduce a new method for SAR image despeckling (SAR-CAM), which improves the performance of an encoder–decoder CNN architecture by using various attention modules. Moreover, a context block is introduced at the minimum scale to capture multiscale information. The model is trained via a data-driven approach using the gradient descent algorithm with a combination of modified despeckling gain and total variation loss function. Experiments performed on simulated and real SAR data demonstrate that the proposed method achieves significant improvements over state-of-the-art methodologies.
 
-## Introduction
-- ### Despeckling Performance
+## Despeckling Performance
 ![image](https://user-images.githubusercontent.com/55126482/144549532-fb7c196d-6415-43fc-abde-22ad07e406b6.png)
 Results for the freeway image with 1-look speckle noise. (a) Reference. (b) Noisy image. (c) PPB. (d) SAR-BM3D. (e) FANS. (f) SAR-DRN. (g)
 HDRANet. (h) U-Net. (i) STD-CNN. (j) MONet. (k) MRDDANet. (l) Proposed Method., respectively.
@@ -44,7 +43,7 @@ python3 test.py --weights-dir SAVE_WEIGHT_DIR --clean-image-dir CLEAN_IMAGE_TEST
 - ### Add pretrained models.
 
 ## Citation
-If you use SAR-CAM in your work, please consider citing us as
+If you use **SAR-CAM** in your work, please consider citing us as
 
 ```
 @ARTICLE{9633208,
