@@ -1,4 +1,7 @@
-# [SAR Image Despeckling Using Continuous Attention Module](https://ieeexplore.ieee.org/document/9633208)
+# SAR Image Despeckling Using Continuous Attention Module
+### [Paper](https://ieeexplore.ieee.org/document/9633208) | [BibTex](#citation)
+## Abstract
+Speckle removal process is inevitable in the restoration of synthetic aperture radar (SAR) images. Several variant methods have been proposed for enhancing SAR images over the past decades. However, in recent studies, convolutional neural networks (CNNs) have been widely applied in SAR image despeckling because of their versatility in representation learning. Nonetheless, a fair number of textures of the images are still lost when despeckling using simple CNN structures. To solve this problem, an encoder–decoder architecture was previously proposed. Although this architecture extracts features on different scales and has been shown to yield state-of-the-art performance, it still learns representation locally, resulting in missing overall information of convolutional features. Therefore, we herein introduce a new method for SAR image despeckling (SAR-CAM), which improves the performance of an encoder–decoder CNN architecture by using various attention modules. Moreover, a context block is introduced at the minimum scale to capture multiscale information. The model is trained via a data-driven approach using the gradient descent algorithm with a combination of modified despeckling gain and total variation loss function. Experiments performed on simulated and real SAR data demonstrate that the proposed method achieves significant improvements over state-of-the-art methodologies.
 
 ## Introduction
 - ### Despeckling Performance
