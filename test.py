@@ -45,7 +45,7 @@ def main() :
                 kernel_size = 3,
                 stride = 1,
                 dilation = 1,
-                bias = False
+                bias = True
                 ).to(device)
     model.load_state_dict(torch.load(args.weights_dir))
 
